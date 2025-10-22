@@ -15,7 +15,7 @@ mode con: cols=120 lines=40
 
 title SYNCRONIZE
 
-color 7
+color 2
 
 :: 0 = Black
 :: 1 = Blue
