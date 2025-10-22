@@ -37,6 +37,7 @@ set use_timeout=""
 
 :prompt
 
+cls
 set /p "input=Run script with delays [y/n] : " 
 if /i %input% == y ( set use_timeout=true & goto next )
 if /i %input% == n ( goto next )
