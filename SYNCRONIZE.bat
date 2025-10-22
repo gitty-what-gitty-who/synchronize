@@ -15,7 +15,7 @@ mode con: cols=120 lines=40
 
 title SYNCRONIZE
 
-color 6
+color 7
 
 :: 0 = Black
 :: 1 = Blue
@@ -25,6 +25,24 @@ color 6
 :: 5 = Purple
 :: 6 = Yellow
 :: 7 = White
+
+
+rem *************************************************************************************************************************************************
+rem   prompt [y/n] for timeouts
+rem *************************************************************************************************************************************************
+
+
+set input=""
+set use_timeout=""
+
+:prompt
+
+set /p "input=Run script with delays [y/n] : " 
+if /i %input% == y ( set use_timeout=true & goto next )
+if /i %input% == n ( goto next )
+goto prompt
+
+:next
 
 
 rem *************************************************************************************************************************************************
@@ -48,7 +66,7 @@ echo    VALIDATE     ::     Validate user and computer
 echo -------------------------------------------------------------------------------
 echo:
 
-timeout /t 2 > null
+if %use_timeout% == true ( timeout /t 2 > null )
 
 set dir_user=%~d0\Syncronize\User
 set dir_pc=%~d0\Syncronize\Pc
@@ -106,13 +124,13 @@ if exist %dir_user%\user.txt if not "%USERNAME%" == "%valid_user%" (
 if %validate% == "init_user" (
     echo  First syncronization for user "%USERNAME%" from computer "%COMPUTERNAME%"
     echo: 
-    timeout /t 5 > null
+    if %use_timeout% == true ( timeout /t 2 > null )
 )
 
 if %validate% == "valid_user" (
     echo  Next syncronization for user "%valid_user%" from computer "%valid_pc%"
     echo:
-    timeout /t 5 > null
+    if %use_timeout% == true ( timeout /t 2 > null )
 ) 
 
 if %validate% == "invalid_user" (
@@ -473,7 +491,7 @@ echo:
 echo  Enough free space on usb : %continue_script%
 echo:
 
-timeout /t 5 > null
+if %use_timeout% == true ( timeout /t 5 > null )
 
 
 rem ------------------------------------------------------------------------------
@@ -552,7 +570,7 @@ if not exist "%USERPROFILE%\Music" (
 )
 
 echo  Starting syncronization . . .
-timeout /t 5 > null
+if %use_timeout% == true ( timeout /t 5 > null )
 echo:
 
 echo -------------------------------------------------------------------------------
@@ -561,7 +579,7 @@ echo ---------------------------------------------------------------------------
 
 echo:
 echo  Start syncronization %USERPROFILE%\Documents . . .
-timeout /t 10 > null
+if %use_timeout% == true ( timeout /t 5 > null )
 
 if exist "%USERPROFILE%\Documents" (
     robocopy %USERPROFILE%\Documents %~d0\Syncronize\Data\Documents /MIR /R:2 /W:5 /XJD /XF desktop.ini /LOG+:%~d0\Syncronize\Logs\Log1.log /TEE 
@@ -573,7 +591,7 @@ if exist "%USERPROFILE%\Documents" (
 
 echo:
 echo  Start syncronization %USERPROFILE%\Pictures . . .
-timeout /t 10 > null
+if %use_timeout% == true ( timeout /t 5 > null )
 
 if exist "%USERPROFILE%\Pictures" (
     robocopy %USERPROFILE%\Pictures %~d0\Syncronize\Data\Pictures /MIR /R:2 /W:5 /XJD /XF desktop.ini /LOG+:%~d0\Syncronize\Logs\Log1.log /TEE 
@@ -585,7 +603,7 @@ if exist "%USERPROFILE%\Pictures" (
 
 echo:
 echo  Start syncronization %USERPROFILE%\Videos . . .
-timeout /t 10 > null
+if %use_timeout% == true ( timeout /t 5 > null )
 
 if exist "%USERPROFILE%\Videos" (
     robocopy %USERPROFILE%\Videos %~d0\Syncronize\Data\Videos /MIR /R:2 /W:5 /XJD /XF desktop.ini /LOG+:%~d0\Syncronize\Logs\Log1.log /TEE
@@ -597,7 +615,7 @@ if exist "%USERPROFILE%\Videos" (
 
 echo:
 echo  Start syncronization %USERPROFILE%\Music . . .
-timeout /t 10 > null
+if %use_timeout% == true ( timeout /t 5 > null )
 
 if exist "%USERPROFILE%\Music" (
     robocopy %USERPROFILE%\Music %~d0\Syncronize\Data\Music /MIR /R:2 /W:5 /XJD /XF desktop.ini /LOG+:%~d0\Syncronize\Logs\Log1.log /TEE
@@ -607,7 +625,7 @@ if exist "%USERPROFILE%\Music" (
     echo:
 )
 
-timeout /t 5 > null
+if %use_timeout% == true ( timeout /t 5 > null )
 
 
 rem *************************************************************************************************************************************************
@@ -687,7 +705,7 @@ echo    END     ::    End of script
 echo -------------------------------------------------------------------------------
 echo:
 
-del "%~d0\null"
+if exist %~d0\null ( del %~d0\null )
 
 powershell "[console]::beep(500,1000)"
 
