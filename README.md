@@ -1,5 +1,9 @@
-Getting started
----------------
+SYNCRONIZE.BAT
+--------------
+
+
+Description
+-----------
 
 This script synchronizes the contents of the Windows user’s personal folders with a connected USB drive.
 It performs a one-way synchronization operation, not a backup. Any file deleted from your Windows folders will also be deleted from the USB drive during synchronization.
