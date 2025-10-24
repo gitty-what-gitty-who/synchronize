@@ -25,23 +25,23 @@ Additions, modifications, and deletions are replicated to maintain an exact copy
 
 ## Folder Structure on the USB Drive
 
-On the connected USB drive, the script automatically creates a parent directory named SYNCHRONIZE within this parent folder, <br/> the following subfolders are created:
+On the connected USB drive, the script automatically creates a parent folder named SYNCHRONIZE within this parent folder, <br/> the following subfolders are created:
 - Data – Contains the synchronized user data.
 - Logs – Stores log files generated during the synchronization process.
 - User (hidden) – Stores the username for validation.
 - PC (hidden) – Stores the hostname for validation. <br/>
 
-These directories are automatically created and maintained by the script to support synchronization, logging, and system validation.
+These folders are automatically created and maintained by the script to support synchronization, logging, and system validation.
 
 
 ## Usage Instructions
 
-Place the batch script in the root directory of the USB drive and execute it.
+Place the batch script in the root folder of the USB drive and execute it.
 
 
 ## Important Notes
 
-•	This script is designed for data mirroring, not for backups.
+This script is designed for data mirroring, not for backups.
 
 > [!Warning]
 >	Deleted files on the local system will also be deleted from the USB drive upon synchronization.
