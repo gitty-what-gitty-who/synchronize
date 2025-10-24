@@ -34,7 +34,8 @@ Inside that parent directory, the following subdirectories are created:
 
 If you want to synchronize multiple users on the same USB drive, simply copy the script, rename it, and run it.  <br/>
 For example, use the user’s name as the script name.  <br/>
-This way, each user automatically generates a unique parent directory, named after the script itself, containing predefined subdirectories.  <br/>
+This way, each user automatically generates a unique parent directory, named after the script itself,  <br/> 
+containing predefined subdirectories.  <br/>
 This maintains a clear, isolated, and conflict-free workspace for every user.  <br/>
 
 ## Usage instructions
@@ -44,7 +45,7 @@ Place the batch script in the root directory of the USB drive and execute it.
 
 ## Important notes
 
-This script is designed for data mirroring, not for backups.
+This script is designed for data mirroring, not for backups.  <br/>
 
 > [!Warning]
 >	Deleted files on the local system will also be deleted from the USB drive upon synchronization.
