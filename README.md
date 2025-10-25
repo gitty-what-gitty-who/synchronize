@@ -3,7 +3,7 @@
 
 ## Description
 
-This Windows batch script uses Robocopy to synchronize the contents of the Windows user’s personal directories with a connected USB drive. <br/>
+This Windows batch script mirrors your Windows personal directories to the USB drive,. <br/>
 It performs a one-way synchronization operation, not a backup. <br/> 
 
 
