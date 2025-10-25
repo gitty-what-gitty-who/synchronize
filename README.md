@@ -3,9 +3,13 @@
 
 ## Description
 
-This Windows batch script mirrors your Windows personal directories to the USB drive,. <br/>
-It performs a one-way synchronization operation, not a backup. <br/> 
+This batch script allows Windows users to quickly and easily mirror their Windows personal folders onto a USB drive.  <br/> 
+It performs a one-way synchronization from your PC to the USB drive, meaning:
 
+- New and updated files on your PC will be copied to the USB.
+- Files deleted from your PC will also be removed from the USB.
+
+This is not a backup, but a fast way to keep your USB folders identical to your Windows personal folders. <br/>
 
 ## Operation overview
 
