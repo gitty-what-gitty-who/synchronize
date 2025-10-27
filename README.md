@@ -3,7 +3,7 @@
 ![Platform](https://img.shields.io/badge/platform-Windows-blue)
 ![Language](https://img.shields.io/badge/language-Batch%20Script-lightgrey)
 ![Status](https://img.shields.io/badge/status-Stable-success)
-![License](https://img.shields.io/badge/license-MIT-green)
+
 
 ---
 
@@ -58,7 +58,7 @@ To synchronize multiple users on the same USB drive:
 
 1. Copy and rename the batch script for each user (e.g., `John_SYNC.bat`, `Alice_SYNC.bat`).  
 2. Each renamed script automatically creates a **unique parent directory** named after the script.  
-3. Each user’s data is stored in isolated directory, preventing conflicts and maintaining a clear, organized workspace.
+3. Each user’s data is stored in an isolated directory, preventing conflicts and maintaining a clear, organized workspace.
 
 ---
 
