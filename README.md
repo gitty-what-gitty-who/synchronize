@@ -65,7 +65,7 @@ To synchronize multiple users on the same USB drive:
 ## 🧭 Usage Instructions
 
 1. Place the `SYNCHRONIZE.bat` file in the **root directory** of the USB drive.  
-2. Execute the script by double-clicking it or running it from the Command Prompt.
+2. Execute the script by double-clicking it.
 
 ---
 
@@ -87,7 +87,7 @@ To synchronize multiple users on the same USB drive:
 ## 🛠️ Example Directory Layout
 ```
 USB_DRIVE_ROOT/
-└── SYNCHRONIZE/          📁 Created automatically by the script
+└── SYNCHRONIZE/         📁 Created automatically by the script
     ├── Data/            🗄️ Mirrored user files (Documents, Pictures, Videos, Music)
     ├── Logs/            📄 Synchronization logs
     ├── User/            🔒 Hidden, stores username for validation
