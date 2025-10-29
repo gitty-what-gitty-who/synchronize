@@ -1,4 +1,4 @@
-# 🔄 SYNCRONIZE.bat
+# 🔄 SYNCHRONIZE.bat
 
 ![Platform](https://img.shields.io/badge/platform-Windows-blue)
 ![Language](https://img.shields.io/badge/language-Batch%20Script-lightgrey)
@@ -9,7 +9,7 @@
 
 ## 📄 Description
 
-`SYNCRONIZE.bat` is a Windows batch script that enables users to quickly and efficiently **mirror their personal directories** onto a USB drive.  
+`SYNCHRONIZE.bat` is a Windows batch script that enables users to quickly and efficiently **mirror their personal directories** onto a USB drive.  
 It performs a **one-way synchronization** from the local PC to the USB drive, meaning:
 
 - 🟢 New and updated files on the PC are copied to the USB drive.  
@@ -64,7 +64,7 @@ To synchronize multiple users on the same USB drive:
 
 ## 🧭 Usage Instructions
 
-1. Place the `SYNCRONIZE.bat` file in the **root directory** of the USB drive.  
+1. Place the `SYNCHRONIZE.bat` file in the **root directory** of the USB drive.  
 2. Execute the script by double-clicking it or running it from the Command Prompt.
 
 ---
@@ -87,7 +87,7 @@ To synchronize multiple users on the same USB drive:
 ## 🛠️ Example Directory Layout
 ```
 USB_DRIVE_ROOT/
-└── SYNCRONIZE/          📁 Created automatically by the script
+└── SYNCHRONIZE/          📁 Created automatically by the script
     ├── Data/            🗄️ Mirrored user files (Documents, Pictures, Videos, Music)
     ├── Logs/            📄 Synchronization logs
     ├── User/            🔒 Hidden, stores username for validation
@@ -96,7 +96,7 @@ USB_DRIVE_ROOT/
 ---
 
 ## 🧑‍💻 Version Information
-- **Script Name:** `SYNCRONIZE.bat`  
+- **Script Name:** `SYNCHRONIZE.bat`  
 - **Compatibility:** Windows 10 and later  
 - **Operation Mode:** One-way file mirroring (PC → USB)
 
