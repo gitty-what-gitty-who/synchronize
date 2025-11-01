@@ -20,24 +20,24 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 
 ---
 
-## ⚙️ Operation Overview
+## ⚙️ Operation overview
 
-### 1. Unique User Directory
+### 1. Unique user directory
 - Generates a unique user directory.
 - It combines the username, computer name, and a short SHA-1 hash of the user’s SID to ensure the directory name is unique.
 
-### 2. Storage Space Validation
+### 2. Storage space validation
 - Before synchronization, the script checks the available storage space on the USB drive.  
 - Synchronization proceeds only if there is sufficient free space to accommodate all new or modified data.  
 - If space is insufficient, the script stops and notifies the user.
 
-### 3. Synchronization Process
+### 3. Synchronization process
 - Mirrors the contents of the user’s **Documents**, **Pictures**, **Videos**, and **Music** directories to corresponding directories on the USB drive.  
 - Additions, modifications, and deletions are replicated to maintain an exact mirror of the local Windows directories.
 
 ---
 
-## 🛠️ Example Directory Layout
+## 🛠️ Example directory layout
 ```
 USB_DRIVE_ROOT/
 └── JDOE_WORKPC_5A8C2E/  📁 Unique user directory 
@@ -46,7 +46,7 @@ USB_DRIVE_ROOT/
 ```
 ---
 
-## 🧭 Usage Instructions
+## 🧭 Usage instructions
 
 1. **Place the Script**  
    Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive (e.g., `E:\SYNCHRONIZE.ps1`).
@@ -64,7 +64,7 @@ USB_DRIVE_ROOT/
 
 4. **Change the Shortcut Icon** *(Optional)*  
    - Right-click the shortcut → **Properties → Change Icon**.  
-   - Choose a custom **Synchronize icon**.
+   - Choose the **Synchronize icon**.
 
 5. **Run the Script**  
    Double-click the shortcut to execute the PowerShell script.
