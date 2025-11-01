@@ -42,7 +42,7 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 USB_DRIVE_ROOT/
 └── JDOE_WORKPC_5A8C2E/  📁 Unique user directory 
     ├── Data/            📁 Mirrored user files (Documents, Pictures, Videos, Music)
-    ├── Logs/            📁 Synchronization logs
+    └── Logs/            📁 Synchronization logs
 ```
 ---
 
@@ -55,7 +55,7 @@ USB_DRIVE_ROOT/
    - Right-click on the desktop or in a folder and select **New → Shortcut**.  
    - For the **Target**, enter:  
      ```
-     C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -File "E:\SYNCHRONIZE.ps1"
+     powershell.exe -ExecutionPolicy Bypass -File "E:\SYNCHRONIZE.ps1"
      ```  
      > Replace `E:` with the correct drive letter of your USB drive.
 
