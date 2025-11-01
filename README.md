@@ -48,25 +48,25 @@ USB_DRIVE_ROOT/
 
 ## 🧭 Usage instructions
 
-1. **Place the Script**  
-   Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive (e.g., `E:\SYNCHRONIZE.ps1`).
+1. **Place the script**  
+   Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive ( for example `E:\SYNCHRONIZE.ps1`).
 
 2. **Create a Shortcut**  
-   - Right-click on the desktop or in a folder and select **New → Shortcut**.  
-   - For the **Target**, enter:  
+   - Right-click on the desktop or in a folder and select **new → shortcut**.  
+   - For the **target**, enter:  
      ```
      powershell.exe -ExecutionPolicy Bypass -File "E:\SYNCHRONIZE.ps1"
      ```  
      > Replace `E:` with the correct drive letter of your USB drive.
 
 3. **Name the Shortcut**  
-   Give it a descriptive name, e.g., **“START SYNCHRONIZE”**.
+   Give it a descriptive name, for example **“START SYNCHRONIZE”**.
 
-4. **Change the Shortcut Icon** *(Optional)*  
-   - Right-click the shortcut → **Properties → Change Icon**.  
-   - Choose the **Synchronize icon**.
+4. **Change the shortcut icon** *(Optional)*  
+   - Right-click the shortcut → **properties → change icon**.  
+   - Choose the **synchronize icon**.
 
-5. **Run the Script**  
+5. **Run the script**  
    Double-click the shortcut to execute the PowerShell script.
    
 ---
@@ -86,10 +86,10 @@ USB_DRIVE_ROOT/
 
 ---
 
-## 🧑‍💻 Version Information
-- **Script Name:** `SYNCHRONIZE.ps1`  
+## 🧑‍💻 Version information
+- **Script name:** `SYNCHRONIZE.ps1`  
 - **Compatibility:** Windows 10 and later  
-- **Operation Mode:** One-way file mirroring (PC → USB)
+- **Operation mode:** One-way file mirroring (PC → USB)
 
 ---
 
