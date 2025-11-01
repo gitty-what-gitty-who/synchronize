@@ -14,20 +14,24 @@
 #>
 
 # ================================================================================================
-# set output color
+#    set output color
 # ================================================================================================
 
-$host.UI.RawUI.ForegroundColor = 'Yellow'
+$output_color = 'Yellow'
+$host.UI.RawUI.ForegroundColor = $output_color
+
+#Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray,
+#DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White
 
 # ================================================================================================
-# prompt [y/n] for timeout
+#    prompt [y/n] for timeout
 # ================================================================================================
 
 $use_timeout = $null
 
 do {
-    Clear-Host
-    $input = Read-Host "Run script with delays [y/n]"
+    clear-host
+    $input = read-Host "Run script with delays [y/n]"
 
     switch ($input.ToLower()) {
         'y' { 
@@ -37,125 +41,81 @@ do {
             $use_timeout = $false
         }
         default {
-            Write-Host "Invalid input, please enter 'y' or 'n'."
-            Start-Sleep -Seconds 1
+            write-Host "Invalid input, please enter 'y' or 'n'." 
+            start-Sleep -Seconds 1
         }
     }
 } until ($use_timeout -ne $null)
 
 if ($use_timeout) {
-    Write-Host "Delays will be applied..."
-    Start-Sleep -Seconds 1
+    write-Host "Delays will be applied..."
+    start-Sleep -Seconds 1
 } else {
-    Write-Host "Running without delays..."
+    write-Host "Running without delays..."
 }
 
 # ================================================================================================
-# validate user and computer
+#    show logo
 # ================================================================================================
 
-Write-Host ""
-Write-Host "-------------------------------------------------------------------------------------"
-Write-Host "   VALIDATE     ::     Validate user and computer"
-Write-Host "-------------------------------------------------------------------------------------"
-Write-Host ""
+clear-host
+write-host "   ______   ___   _  ____ _   _ ____   ___  _   _ ___ __________ "
+write-host "  / ___\ \ / / \ | |/ ___| | | |  _ \ / _ \| \ | |_ _|__  / ____|"
+write-host "  \___ \\ V /|  \| | |   | |_| | |_) | | | |  \| || |  / /|  _|  "
+write-host "   ___) || | | |\  | |___|  _  |  _ <| |_| | |\  || | / /_| |___ "
+write-host "  |____/ |_| |_| \_|\____|_| |_|_| \_\\___/|_| \_|___/____|_____|"
+
+# ================================================================================================
+#    make parent dir from username + computername + account SID hash
+# ================================================================================================
 
 if ($use_timeout) { Start-Sleep -Seconds 2 }
 
-$dir_parent = $MyInvocation.MyCommand.Path
-$dir_parent = $dir_parent -replace '\.ps1$', ''
+$drive = Split-Path -Qualifier $MyInvocation.MyCommand.Path
 
-$dir_user   = Join-Path $dir_parent "User"
-$dir_pc     = Join-Path $dir_parent "Pc"
+$baseName = "{0}_{1}" -f $env:USERNAME.ToUpper(), $env:COMPUTERNAME.ToUpper()
 
-$user_txt = Join-Path $dir_user "User.txt"
-$pc_txt   = Join-Path $dir_pc "Pc.txt"
+# Get current user SID
+$userSID = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 
-$valid_user = $null
-$valid_pc   = $null
-$validate   = $null
+# Compute short hash from SID
+$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($userSID)
+$sha1 = [System.Security.Cryptography.SHA1]::Create()
+$hash = [BitConverter]::ToString($sha1.ComputeHash($hashBytes)) -replace "-", ""
+$shortHash = $hash.Substring(0,6)
 
-if (Test-Path $user_txt) { $valid_user = (Get-Content $user_txt -Raw).Trim() }
-if (Test-Path $pc_txt)   { $valid_pc   = (Get-Content $pc_txt -Raw).Trim() }
+$dir_parent = Join-Path $drive ("{0}_{1}" -f $baseName, $shortHash)
 
-if (-not (Test-Path $user_txt) -and -not (Test-Path $pc_txt)) {
-    $validate = "init_user"
-}
-elseif ((Test-Path $user_txt) -and $env:USERNAME -eq $valid_user) {
-    if ((Test-Path $pc_txt) -and $env:COMPUTERNAME -eq $valid_pc) {
-        $validate = "valid_user"
-    } else {
-        $validate = "invalid_user"
-    }
-} else {
-    $validate = "invalid_user"
-}
-
-switch ($validate) {
-    "init_user" {
-        Write-Host "  First synchronization for user '$env:USERNAME' from computer '$env:COMPUTERNAME'"
-        Write-Host ""
-        if ($use_timeout) { Start-Sleep -Seconds 2 }
-    }
-    "valid_user" {
-        Write-Host "  Next synchronization for user '$valid_user' from computer '$valid_pc'"
-        if ($use_timeout) { Start-Sleep -Seconds 2 }
-        Write-Host ""
-    }
-    "invalid_user" {
-        Clear-Host
-        $host.UI.RawUI.ForegroundColor = 'Red'
-        Write-Host ""
-        Write-Host "ERROR: The USB contains synchronized data from a different user or computer!"
-        Write-Host ""
-        Write-Host "       Saved user : $valid_user"
-        Write-Host "       Saved host : $valid_pc"
-        Write-Host ""
-        Write-Host "       New user   : $env:USERNAME"
-        Write-Host "       New host   : $env:COMPUTERNAME"
-        Write-Host ""
-        Write-Host "INFO: To proceed with the new user and remove existing synchronized data:"
-        Write-Host ""
-        Write-Host "      1. Delete directory '$dir_parent' on the USB."
-        Write-Host "      2. Restart the script."
-        Write-Host ""
-        Write-Host "To synchronize multiple users on the same USB while keeping their data:"
-        Write-Host ""
-        Write-Host "      1. Copy and rename the script for each user (e.g., John_SYNC.ps1, Alice_SYNC.ps1)."
-        Write-Host "      2. Run the renamed script for each user."
-        Write-Host ""
-       [console]::beep(500,1000)
-       exit
-    }
-}
-
-if (-not (Test-Path $user_txt)) {
-    New-Item -ItemType Directory -Path $dir_user -Force | Out-Null
-    $env:USERNAME | Out-File -FilePath $user_txt -Encoding UTF8
-    (Get-Item $dir_user).Attributes += 'Hidden'
-    Write-Host "  Saved username '$env:USERNAME' at '$user_txt'"
+if (-Not (Test-Path $dir_parent)) {
+    Write-Host "" 
+    Write-Host "-------------------------------------------------------------------------------------" 
+    Write-Host "   INIT     ::     Initialize a unique directory for this user"
+    Write-Host "-------------------------------------------------------------------------------------" 
+    Write-Host "" 
+    Write-Host "  Make directory : $dir_parent"
     Write-Host ""
-}
-
-if (-not (Test-Path $pc_txt)) {
-    New-Item -ItemType Directory -Path $dir_pc -Force | Out-Null
-    $env:COMPUTERNAME | Out-File -FilePath $pc_txt -Encoding UTF8
-    (Get-Item $dir_pc).Attributes += 'Hidden'
-    Write-Host "  Saved computer name '$env:COMPUTERNAME' at '$pc_txt'"
+    Write-Host "  First synchronization for user '$env:USERNAME' from computer '$env:COMPUTERNAME'"
     Write-Host ""
+    if ($use_timeout) { Start-Sleep -Seconds 2 }
+}
+elseif (Test-Path $dir_parent) {
+    Write-Host "" 
+    Write-Host "-------------------------------------------------------------------------------------" 
+    Write-Host "   VERIFY     ::     Verify a unique directory for this user"
+    Write-Host "-------------------------------------------------------------------------------------" 
+    Write-Host "" 
+    Write-Host "  Verify directory : $dir_parent"
+    Write-Host ""
+    Write-Host "  Next synchronization for user '$env:USERNAME' from computer '$env:COMPUTERNAME'"
+    Write-Host ""
+    if ($use_timeout) { Start-Sleep -Seconds 2 }
 }
 
 # ================================================================================================
-# if dir_parent\Logs does not exist then make dir_parent\Logs on usb & rotate log files
+#    if dir_parent\Logs does not exist then make dir_parent\Logs & keep only n log files
 # ================================================================================================
 
 $dir_logs = Join-Path $dir_parent "Logs"
-
-$log1 = Join-Path $dir_logs "Log1.log"
-$log2 = Join-Path $dir_logs "Log2.log"
-$log3 = Join-Path $dir_logs "Log3.log"
-$log4 = Join-Path $dir_logs "Log4.log"
-$log5 = Join-Path $dir_logs "Log5.log"
 
 if (-not (Test-Path $dir_logs)) {
     New-Item -ItemType Directory -Path $dir_logs | Out-Null
@@ -163,30 +123,33 @@ if (-not (Test-Path $dir_logs)) {
     Write-Host "   MAKE     ::     Make directories for logs and Data"
     Write-Host "-------------------------------------------------------------------------------------"
     Write-Host ""
-    Write-Host "  Make directory for logs on USB drive: $dir_logs"
+    Write-Host "  Make directory for logs : $dir_logs"
     Write-Host ""
 }
 
-if (Test-Path $log5) { Remove-Item $log5 -Force }
-if (Test-Path $log4) { Rename-Item $log4 "Log5.log" }
-if (Test-Path $log3) { Rename-Item $log3 "Log4.log" }
-if (Test-Path $log2) { Rename-Item $log2 "Log3.log" }
-if (Test-Path $log1) { Rename-Item $log1 "Log2.log" }
+# Get all log files that match the date pattern
+$logs = Get-ChildItem -Path $dir_logs -Filter "*.txt" |
+    Where-Object { $_.BaseName -match '^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}$' } |
+    Sort-Object Name -Descending
+
+# Keep the 5 most recent, delete the rest
+$logsToDelete = $logs | Select-Object -Skip 5
+$logsToDelete | Remove-Item -Force
 
 # ================================================================================================
-#  if dir_parent\Data does not exist then make dir_parent\Data on usb
+#    if dir_parent\Data does not exist then make dir_parent\Data
 # ================================================================================================
 
 $dir_data = Join-Path $dir_parent "Data"
 
 if (-not (Test-Path $dir_data)) {
     New-Item -ItemType Directory -Path $dir_data | Out-Null
-    Write-Host "  Make directory for data on USB: $dir_data"
+    Write-Host "  Make directory for data : $dir_data"
     Write-Host ""
 }
 
 # ================================================================================================
-#  calculate the size of data to be synchronized
+#    calculate the size of data to be synchronized
 # ================================================================================================
 
 $user_path = $env:USERPROFILE
@@ -217,7 +180,6 @@ Write-Host "--------------------------------------------------------------------
 Write-Host "   STORAGE     ::     Make sure there is enough free space on USB"
 Write-Host "-------------------------------------------------------------------------------------"
 Write-Host ""
-
 Write-Host "  New data          : $size_new_data bytes / $size_new_data_GB GB"
 Write-Host ""
 
@@ -272,6 +234,8 @@ Write-Host ""
 #    free space on usb >= delta data then continue script
 # ================================================================================================
 
+#$continue_script = "False"
+
 $continue_script = $size_free_space_usb -gt $size_delta_data
 
 Write-Host "  Free space on USB > Delta data = $continue_script"
@@ -289,21 +253,35 @@ if (-not $continue_script) {
     $used_c = $driveInfo.Used
     $size_c = $free_c + $used_c
     $size_c_gb = [math]::Round($size_c / 1GB, 2)
+
+    write-host "   ______   ___   _  ____ _   _ ____   ___  _   _ ___ __________ "
+    write-host "  / ___\ \ / / \ | |/ ___| | | |  _ \ / _ \| \ | |_ _|__  / ____|"
+    write-host "  \___ \\ V /|  \| | |   | |_| | |_) | | | |  \| || |  / /|  _|  "
+    write-host "   ___) || | | |\  | |___|  _  |  _ <| |_| | |\  || | / /_| |___ "
+    write-host "  |____/ |_| |_| \_|\____|_| |_|_| \_\\___/|_| \_|___/____|_____|"
     Write-Host ""
-    Write-Host "error : Not enough free space on the USB drive."
+    Write-Host "-------------------------------------------------------------------------------------"
+    Write-Host "   ERROR     ::     There is not enough free space on USB drive"
+    Write-Host "-------------------------------------------------------------------------------------"
     Write-Host ""
-    Write-Host "info  : Please use another USB drive with capacity larger than $size_c_gb GB."
+    Write-Host "  Please use another USB drive with capacity larger than $size_c_gb GB."
     Write-Host ""
+
     [console]::beep(500, 1000)
+
+    if ($host.Name -eq 'ConsoleHost' -or $host.Name -eq 'Windows PowerShell ISE Host') {
+    Write-Host "  Press Enter to exit..."
+    Read-Host
     exit
+    }  
 }
 
 # ================================================================================================
-#    probe directories Documents Pictures Videos Music
+#    Verify directories Documents Pictures Videos Music
 # ================================================================================================
 
 Write-Host "-------------------------------------------------------------------------------------"
-Write-Host "   PROBE     ::     Probe directories : Documents Pictures Videos Music"
+Write-Host "   VERIFY     ::     Verify directories : Documents Pictures Videos Music"
 Write-Host "-------------------------------------------------------------------------------------"
 Write-Host ""
 
@@ -313,7 +291,7 @@ $user_profile = $env:USERPROFILE
 foreach ($dir in $directories) {
     $full_path = Join-Path $user_profile $dir
     if (-not (Test-Path $full_path)) {
-        Write-Host "  Directory '$full_path' not found"
+        Write-Host "  Directory '$full_path' not found" -ForegroundColor Red
         Write-Host ""
     } else {
         Write-Host "  Directory '$full_path' ok"
@@ -336,7 +314,8 @@ Write-Host "--------------------------------------------------------------------
 
 $directories = "Documents","Pictures","Videos","Music"
 $user_profile = $env:USERPROFILE
-$log_file = Join-Path $dir_parent "Logs\Log1.log"
+#$log_file = Join-Path $dir_parent "Logs\Log1.log"
+$log = Join-Path $dir_logs "$(Get-Date -Format 'yyyy-MM-dd_HH-mm-ss').txt"
 $data_dir = Join-Path $dir_parent "Data"
 
 foreach ($dir in $directories) {
@@ -346,12 +325,10 @@ foreach ($dir in $directories) {
     if (Test-Path $source) {
         Write-Host ""
         Write-Host "  Start synchronization $source . . ."
-
         if ($use_timeout -eq $true) { Start-Sleep -Seconds 5 }
-
         if (-not (Test-Path $destination)) { New-Item -ItemType Directory -Path $destination | Out-Null }
 
-        robocopy $source $destination /MIR /FFT /R:2 /W:5 /XJD /LOG+:$log_file /TEE
+        robocopy $source $destination /MIR /FFT /R:2 /W:5 /XJD /E /LOG+:$log /TEE 
     }
 }
 
@@ -382,21 +359,49 @@ foreach ($dir in $directories) {
 }
 
 if (-not $exceptions) {
-    Write-Host "  Synchronization completed"
+    Write-Host "  Synchronization finished"
 } else {
-    Write-Host "  Synchronization finished with exceptions:"
+    Write-Host "  Synchronization finished with exceptions:" -ForegroundColor Red
     foreach ($dir in $directories) {
         if (-not $exist[$dir]) {
-            Write-Host "    No directory '$user_profile\$dir' to synchronize"
+            Write-Host "  No directory '$user_profile\$dir' to synchronize" -ForegroundColor Red
         }
     }
 }
 
 # ================================================================================================
+#     change icon of parent directory
+# ================================================================================================
+
+$dir_desktop_ini = $dir_parent
+$file_desktop_ini = Join-Path $dir_desktop_ini "desktop.ini"
+$IconResource = "C:\WINDOWS\System32\SHELL32.dll,238"
+$content_desktop_ini = "[.ShellClassInfo]`r`nIconResource=$IconResource"
+$content_desktop_ini | Set-Content -Encoding Unicode $file_desktop_ini
+attrib +r $dir_desktop_ini
+attrib +h +s $file_desktop_ini
+
+Write-Host ""
+Write-Host "-------------------------------------------------------------------------------------"
+Write-Host "   ICON     ::     Change icon of directory $dir_parent"
+Write-Host "-------------------------------------------------------------------------------------"
+Write-Host ""
+Write-Host "  Directory icon of "$dir_parent" changed to Windows Sync icon"
+Write-Host ""
+
+# ================================================================================================
 #     end of script
 # ================================================================================================
 
+Write-Host "-------------------------------------------------------------------------------------"
+Write-Host "   END     ::     End of script"
+Write-Host "-------------------------------------------------------------------------------------"
+Write-Host ""
+
 [console]::Beep(500, 1000)  # 500 Hz for 1 second
 
-Write-Host ""
-Write-Host ""
+if ($host.Name -eq 'ConsoleHost' -or $host.Name -eq 'Windows PowerShell ISE Host') {
+Write-Host "  Press Enter to exit..."
+Read-Host
+exit
+}  
