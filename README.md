@@ -52,7 +52,7 @@ USB_DRIVE_ROOT/
    Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive ( for example `E:\SYNCHRONIZE.ps1`).
 
 2. **Create a Shortcut**  
-   - Right-click on the desktop or in a folder and select **new → shortcut**.  
+   - Right-click in the root of the USB drive and select **new → shortcut**.  
    - For the **target**, enter:  
      ```
      powershell.exe -ExecutionPolicy Bypass -File "E:\SYNCHRONIZE.ps1"
