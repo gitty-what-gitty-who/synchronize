@@ -5,13 +5,38 @@
 .DESCRIPTION
     This PowerShell script allows Windows users to quickly and easily mirror 
     their Windows personal directories onto a USB drive.
-
-.AUTHOR
-    Luc Baeten
-
-.CREATED
-    18-10-2025
 #>
+
+# ========================================================================================================
+#    define function to change folder icon
+# ========================================================================================================
+
+function Change-Icon {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$PathDir,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Icon
+    )
+
+    $IconMap = @{
+        "good"    = 110
+        "bad"     = 234
+        "warning" = 66
+        "sync"    = 238
+        "log"     = 70
+    }
+
+    $FileDesktopIni = Join-Path $PathDir "desktop.ini"
+    $IconResource   = "C:\WINDOWS\System32\SHELL32.dll,$($IconMap[$Icon])"
+    $Content        = "[.ShellClassInfo]`r`nIconResource=$IconResource"
+
+    $Content | Set-Content -Encoding Unicode $FileDesktopIni
+
+    attrib +r $PathDir
+    attrib +h +s $FileDesktopIni
+}
 
 # ========================================================================================================
 #    set output color
@@ -89,11 +114,9 @@ $dir_parent = Join-Path $drive ("{0}_{1}" -f $baseName, $shortHash)
 if (-Not (Test-Path $dir_parent)) {
     Write-Host "" 
     Write-Host "-------------------------------------------------------------------------------" 
-    Write-Host "   INIT     ::     Initialize a unique directory for this user"
+    Write-Host "   INIT     ::     Initialize user"
     Write-Host "-------------------------------------------------------------------------------" 
     Write-Host "" 
-    Write-Host "  Creating directory : $dir_parent"
-    Write-Host ""
     Write-Host "  Performing first synchronization for user '$env:USERNAME' on computer '$env:COMPUTERNAME'"
     Write-Host ""
     if ($use_timeout) { Start-Sleep -Seconds 2 }
@@ -101,18 +124,16 @@ if (-Not (Test-Path $dir_parent)) {
 elseif (Test-Path $dir_parent) {
     Write-Host "" 
     Write-Host "-------------------------------------------------------------------------------" 
-    Write-Host "   VERIFY     ::     Verify a unique directory for this user"
+    Write-Host "   VERIFY     ::     Verify user"
     Write-Host "-------------------------------------------------------------------------------" 
     Write-Host "" 
-    Write-Host "  Verify directory : $dir_parent"
-    Write-Host ""
     Write-Host "  Next synchronization for user '$env:USERNAME' on computer '$env:COMPUTERNAME'"
     Write-Host ""
     if ($use_timeout) { Start-Sleep -Seconds 2 }
 }
 
 # ========================================================================================================
-#    if dir_parent\Logs does not exist then create dir_parent\Logs & keep only n log files
+#    if dir_parent\Logs does not exist then make dir_parent\Logs & keep only "n" log files
 # ========================================================================================================
 
 $dir_logs = Join-Path $dir_parent "Logs"
@@ -120,7 +141,7 @@ $dir_logs = Join-Path $dir_parent "Logs"
 if (-not (Test-Path $dir_logs)) {
     New-Item -ItemType Directory -Path $dir_logs | Out-Null
     Write-Host "-------------------------------------------------------------------------------"
-    Write-Host "   CREATE     ::     Creating directories for logs and Data"
+    Write-Host "   CREATE     ::     Creating directories logs and Data onto the USB drive"
     Write-Host "-------------------------------------------------------------------------------"
     Write-Host ""
     Write-Host "  Creating Logs directory : $dir_logs"
@@ -133,8 +154,10 @@ $logs = Get-ChildItem -Path $dir_logs -Filter "*.txt" |
     Sort-Object Name -Descending
 
 # Keep the 5 most recent, delete the rest
-$logsToDelete = $logs | Select-Object -Skip 5
+$logsToDelete = $logs | Select-Object -Skip 20
 $logsToDelete | Remove-Item -Force
+
+Change-Icon -PathDir $dir_logs -Icon "log"
 
 # ========================================================================================================
 #    if dir_parent\Data does not exist then create dir_parent\Data
@@ -146,7 +169,10 @@ if (-not (Test-Path $dir_data)) {
     New-Item -ItemType Directory -Path $dir_data | Out-Null
     Write-Host "  Creating Data directory : $dir_data"
     Write-Host ""
+    Change-Icon -PathDir $dir_parent -Icon "sync"
 }
+
+ Change-Icon -PathDir $dir_parent -Icon "sync"
 
 # ========================================================================================================
 #    calculate the size of data to be synchronized
@@ -154,7 +180,6 @@ if (-not (Test-Path $dir_data)) {
 
 $user_path = $env:USERPROFILE
 $directories = @("Documents", "Pictures", "Videos", "Music")
-
 
 $sizes = @{}
 
@@ -267,6 +292,8 @@ if (-not $continue_script) {
     Write-Host "  Please use another USB drive with capacity larger than $size_c_gb GB."
     Write-Host ""
 
+    Change-Icon -PathDir $dir_data -Icon "bad"
+
     [console]::beep(500, 1000)
 
     if ($host.Name -eq 'ConsoleHost' -or $host.Name -eq 'Windows PowerShell ISE Host') {
@@ -281,7 +308,7 @@ if (-not $continue_script) {
 # ========================================================================================================
 
 Write-Host "-------------------------------------------------------------------------------"
-Write-Host "   VERIFY     ::     Verify directories"
+Write-Host "   VERIFY     ::     Verify local directories"
 Write-Host "-------------------------------------------------------------------------------"
 Write-Host ""
 
@@ -360,39 +387,22 @@ foreach ($dir in $directories) {
 
 if (-not $exceptions) {
     Write-Host "  Synchronization finished"
+    Change-Icon -PathDir $dir_data -Icon "good"
 } else {
     Write-Host "  Synchronization finished with exceptions:" -ForegroundColor Red
     foreach ($dir in $directories) {
         if (-not $exist[$dir]) {
             Write-Host "  No directory '$user_profile\$dir' to synchronize" -ForegroundColor Red
+            Change-Icon -PathDir $dir_data -Icon "warning"
         }
     }
 }
 
 # ========================================================================================================
-#     change icon of parent directory
-# ========================================================================================================
-
-$dir_desktop_ini = $dir_parent
-$file_desktop_ini = Join-Path $dir_desktop_ini "desktop.ini"
-$IconResource = "C:\WINDOWS\System32\SHELL32.dll,238"
-$content_desktop_ini = "[.ShellClassInfo]`r`nIconResource=$IconResource"
-$content_desktop_ini | Set-Content -Encoding Unicode $file_desktop_ini
-attrib +r $dir_desktop_ini
-attrib +h +s $file_desktop_ini
-
-write-host ""
-Write-Host "-------------------------------------------------------------------------------"
-Write-Host "   CHANGE     ::     Change icon of directory $dir_parent"
-Write-Host "-------------------------------------------------------------------------------"
-Write-Host ""
-Write-Host "  Changing icon of directory "$dir_parent" to windows sync icon"
-Write-Host ""
-
-# ========================================================================================================
 #     end of script
 # ========================================================================================================
 
+Write-Host ""
 Write-Host "-------------------------------------------------------------------------------"
 Write-Host "   END     ::     End of script"
 Write-Host "-------------------------------------------------------------------------------"
