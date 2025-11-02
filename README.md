@@ -40,9 +40,9 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 ## 🛠️ Example directory layout
 ```
 USB_DRIVE_ROOT/
-└── JDOE_WORKPC_5A8C2E/  📁 Unique user directory 
+└── JDOE_WORKPC_5A8C2E/  🔄 Unique user directory 
     ├── Data/            📁 Mirrored user files (Documents, Pictures, Videos, Music)
-    └── Logs/            📁 Synchronization logs
+    └── Logs/            🧾 Synchronization logs
 ```
 ---
 
@@ -64,7 +64,7 @@ USB_DRIVE_ROOT/
      > Replace `E:` with the correct drive letter of your USB drive.
 
 5. **Name the Shortcut**  
-   Give it a descriptive name, for example **“START SYNCHRONIZE”**.
+   Give it a descriptive name, for example **“START SYNCHRONIZING”**.
 
 6. **Change the shortcut icon** *(Optional)*  
    - Right-click the shortcut → **properties → change icon**.  
