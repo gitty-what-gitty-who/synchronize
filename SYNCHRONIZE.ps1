@@ -66,7 +66,7 @@ write-host "   ___) || | | |\  | |___|  _  |  _ <| |_| | |\  || | / /_| |___ "
 write-host "  |____/ |_| |_| \_|\____|_| |_|_| \_\\___/|_| \_|___/____|_____|"
 
 # ========================================================================================================
-#    make parent dir from username + computername + account SID hash
+#    create parent dir from username + computername + account SID hash
 # ========================================================================================================
 
 if ($use_timeout) { Start-Sleep -Seconds 2 }
@@ -92,9 +92,9 @@ if (-Not (Test-Path $dir_parent)) {
     Write-Host "   INIT     ::     Initialize a unique directory for this user"
     Write-Host "-------------------------------------------------------------------------------" 
     Write-Host "" 
-    Write-Host "  Make directory : $dir_parent"
+    Write-Host "  Creating directory : $dir_parent"
     Write-Host ""
-    Write-Host "  First synchronization for user '$env:USERNAME' from computer '$env:COMPUTERNAME'"
+    Write-Host "  Performing first synchronization for user '$env:USERNAME' on computer '$env:COMPUTERNAME'"
     Write-Host ""
     if ($use_timeout) { Start-Sleep -Seconds 2 }
 }
@@ -106,13 +106,13 @@ elseif (Test-Path $dir_parent) {
     Write-Host "" 
     Write-Host "  Verify directory : $dir_parent"
     Write-Host ""
-    Write-Host "  Next synchronization for user '$env:USERNAME' from computer '$env:COMPUTERNAME'"
+    Write-Host "  Next synchronization for user '$env:USERNAME' on computer '$env:COMPUTERNAME'"
     Write-Host ""
     if ($use_timeout) { Start-Sleep -Seconds 2 }
 }
 
 # ========================================================================================================
-#    if dir_parent\Logs does not exist then make dir_parent\Logs & keep only n log files
+#    if dir_parent\Logs does not exist then create dir_parent\Logs & keep only n log files
 # ========================================================================================================
 
 $dir_logs = Join-Path $dir_parent "Logs"
@@ -120,10 +120,10 @@ $dir_logs = Join-Path $dir_parent "Logs"
 if (-not (Test-Path $dir_logs)) {
     New-Item -ItemType Directory -Path $dir_logs | Out-Null
     Write-Host "-------------------------------------------------------------------------------"
-    Write-Host "   MAKE     ::     Make directories for logs and Data"
+    Write-Host "   CREATE     ::     Creating directories for logs and Data"
     Write-Host "-------------------------------------------------------------------------------"
     Write-Host ""
-    Write-Host "  Make directory for logs : $dir_logs"
+    Write-Host "  Creating Logs directory : $dir_logs"
     Write-Host ""
 }
 
@@ -137,14 +137,14 @@ $logsToDelete = $logs | Select-Object -Skip 5
 $logsToDelete | Remove-Item -Force
 
 # ========================================================================================================
-#    if dir_parent\Data does not exist then make dir_parent\Data
+#    if dir_parent\Data does not exist then create dir_parent\Data
 # ========================================================================================================
 
 $dir_data = Join-Path $dir_parent "Data"
 
 if (-not (Test-Path $dir_data)) {
     New-Item -ItemType Directory -Path $dir_data | Out-Null
-    Write-Host "  Make directory for data : $dir_data"
+    Write-Host "  Creating Data directory : $dir_data"
     Write-Host ""
 }
 
@@ -339,7 +339,7 @@ if ($use_timeout -eq $true) { Start-Sleep -Seconds 5 }
 # ========================================================================================================
 
 Write-Host "-------------------------------------------------------------------------------"
-Write-Host "   SYNCHRONIZATION     ::    Synchronization finished"
+Write-Host "   SYNCHRONIZATION     ::     Synchronization finished"
 Write-Host "-------------------------------------------------------------------------------"
 Write-Host ""
 
@@ -383,10 +383,10 @@ attrib +h +s $file_desktop_ini
 
 write-host ""
 Write-Host "-------------------------------------------------------------------------------"
-Write-Host "   ICON     ::     Change icon of directory $dir_parent"
+Write-Host "   CHANGE     ::     Change icon of directory $dir_parent"
 Write-Host "-------------------------------------------------------------------------------"
 Write-Host ""
-Write-Host "  Change icon of directory "$dir_parent" to windows sync icon"
+Write-Host "  Changing icon of directory "$dir_parent" to windows sync icon"
 Write-Host ""
 
 # ========================================================================================================
