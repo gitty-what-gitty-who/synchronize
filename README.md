@@ -55,7 +55,7 @@ USB_DRIVE_ROOT/
    - Right-click **SYNCHRONIZE.ps1** → **Properties**. 
    - In the **General tab** check the box labeled **Hidden**.
 
-4. **Create a Shortcut**  
+4. **Create a shortcut**  
    - Right-click on an empty space in the root of the USB drive and select **new → shortcut**.  
    - For the **target**, enter:  
      ```
@@ -63,7 +63,7 @@ USB_DRIVE_ROOT/
      ```  
      > Replace `E:` with the correct drive letter of your USB drive.
 
-5. **Name the Shortcut**  
+5. **Name the shortcut**  
    Give it a descriptive name, for example **“START SYNCHRONIZING”**.
 
 6. **Change the shortcut icon** *(Optional)*  
@@ -75,7 +75,7 @@ USB_DRIVE_ROOT/
    
 ---
 
-## 🧩 Important Notes
+## 🧩 Important notes
 
 - The initial synchronization performs a **full data transfer** and may take some time.  
 - Subsequent synchronizations are faster because only **changed or updated files** are processed.  
