@@ -28,7 +28,7 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 
 ### 2. Storage space validation
 - Before synchronization, the script checks the available storage space on the USB drive.  
-- Synchronization proceeds only if there is sufficient free space to accommodate all new or modified data.  
+- Synchronization proceeds only if there is enough free space to accommodate all new or modified data.  
 - If space is insufficient, the script stops and notifies the user.
 
 ### 3. Synchronization process
@@ -86,7 +86,6 @@ USB_DRIVE_ROOT/
 ## ⚠️ Warning
 
 > **Deleted files on the local system will also be deleted from the USB drive during synchronization.**  
-> Ensure that you maintain a mirrored copy, not a backup.
 
 ---
 
