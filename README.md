@@ -64,7 +64,7 @@ USB_DRIVE_ROOT/
      > Replace `E:` with the correct drive letter of your USB drive.
 
 5. **Name the Shortcut**  
-   Give it a descriptive name, for example **“START SYNCHRONIZE”**.
+   Give it a descriptive name, for example **“START SYNCHRONIZING”**.
 
 6. **Change the shortcut icon** *(Optional)*  
    - Right-click the shortcut → **properties → change icon**.  
