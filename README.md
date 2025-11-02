@@ -24,7 +24,7 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 
 ### 1. Unique user directory
 - Generates a unique user directory.
-- It combines the username, computer name, and a short SHA-1 hash of the user’s SID to ensure the directory name is unique.
+- It combines the username, computer name and a short SHA-1 hash of the user’s SID to ensure the directory name is unique.
 
 ### 2. Storage space validation
 - Before synchronization, the script checks the available storage space on the USB drive.  
@@ -32,8 +32,8 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 - If space is insufficient, the script stops and notifies the user.
 
 ### 3. Synchronization process
-- Mirrors the contents of the user’s **Documents**, **Pictures**, **Videos**, and **Music** directories to corresponding directories on the USB drive.  
-- Additions, modifications, and deletions are replicated to maintain an exact mirror of the local Windows directories.
+- Mirrors the contents of the user’s **Documents**, **Pictures**, **Videos** and **Music** directories to corresponding directories on the USB drive.  
+- Additions, modifications and deletions are replicated to maintain an exact mirror of the local Windows directories.
 
 ---
 
@@ -51,7 +51,11 @@ USB_DRIVE_ROOT/
 1. **Place the script**  
    Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive ( for example `E:\SYNCHRONIZE.ps1`).
 
-2. **Create a Shortcut**  
+2. **Hide script** *(Optional)*
+   - Right-click **SYNCHRONIZE.ps1** → **Properties**. 
+   - In the **General tab** check the box labeled **Hidden**.
+
+4. **Create a Shortcut**  
    - Right-click on an empty space in the root of the USB drive and select **new → shortcut**.  
    - For the **target**, enter:  
      ```
@@ -59,14 +63,14 @@ USB_DRIVE_ROOT/
      ```  
      > Replace `E:` with the correct drive letter of your USB drive.
 
-3. **Name the Shortcut**  
+5. **Name the Shortcut**  
    Give it a descriptive name, for example **“START SYNCHRONIZE”**.
 
-4. **Change the shortcut icon** *(Optional)*  
+6. **Change the shortcut icon** *(Optional)*  
    - Right-click the shortcut → **properties → change icon**.  
    - Choose the **synchronize icon**.
 
-5. **Run the script**  
+7. **Run the script**  
    Double-click the shortcut to execute the PowerShell script.
    
 ---
@@ -75,14 +79,14 @@ USB_DRIVE_ROOT/
 
 - The initial synchronization performs a **full data transfer** and may take some time.  
 - Subsequent synchronizations are faster because only **changed or updated files** are processed.  
-- The script is designed for **mirroring**, not versioned backups.
+- The script is designed for **mirroring**, not backups.
 
 ---
 
 ## ⚠️ Warning
 
 > **Deleted files on the local system will also be deleted from the USB drive during synchronization.**  
-> Ensure that you intend to maintain a mirrored copy, not a backup archive.
+> Ensure that you maintain a mirrored copy, not a backup.
 
 ---
 
