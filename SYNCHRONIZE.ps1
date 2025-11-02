@@ -336,7 +336,7 @@ if ($use_timeout -eq $true) { Start-Sleep -Seconds 5 }
 Write-Host ""
 
 Write-Host "-------------------------------------------------------------------------------"
-Write-Host "   SYNCHRONIZE     ::     Synchronize directories"
+Write-Host "   SYNCHRONIZE     ::     Starting synchronization "
 Write-Host "-------------------------------------------------------------------------------"
 
 $directories = "Documents","Pictures","Videos","Music"
@@ -366,7 +366,7 @@ if ($use_timeout -eq $true) { Start-Sleep -Seconds 5 }
 # ========================================================================================================
 
 Write-Host "-------------------------------------------------------------------------------"
-Write-Host "   SYNCHRONIZATION     ::     Synchronization finished"
+Write-Host "   SYNCHRONIZE     ::     Finished Synchronization"
 Write-Host "-------------------------------------------------------------------------------"
 Write-Host ""
 
@@ -386,10 +386,10 @@ foreach ($dir in $directories) {
 }
 
 if (-not $exceptions) {
-    Write-Host "  Synchronization finished"
+    Write-Host "  Finished synchronization"
     Change-Icon -PathDir $dir_data -Icon "good"
 } else {
-    Write-Host "  Synchronization finished with exceptions:" -ForegroundColor Red
+    Write-Host "  Finished synchronization with exceptions:" -ForegroundColor Red
     foreach ($dir in $directories) {
         if (-not $exist[$dir]) {
             Write-Host "  No directory '$user_profile\$dir' to synchronize" -ForegroundColor Red
