@@ -48,30 +48,20 @@ USB_DRIVE_ROOT/
 
 ## 🧭 Usage instructions
 
-1. **Place the script**  
-   Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive ( for example `E:\SYNCHRONIZE.ps1`).
+1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
 
-2. **Hide script** *(Optional)*
-   - Right-click **SYNCHRONIZE.ps1** → **Properties**. 
-   - In the **General tab** check the box labeled **Hidden**.
+2. Select the script **Right-click → Open with → Choose another app**.
 
-4. **Create a shortcut**  
-   - Right-click on an empty space in the root of the USB drive and select **New → Shortcut**.  
-   - For the **Target**, enter:  
-     ```
-     powershell.exe -ExecutionPolicy Bypass -File "E:\SYNCHRONIZE.ps1"
-     ```  
-     > Replace `E:` with the correct drive letter of your USB drive.
+3. **Select PowerShell** (or browse to `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`).
 
-5. **Name the shortcut**  
-   Give it a descriptive name, for example **“START SYNCHRONIZING”**.
+4. *(Optional)* Check **Always use this app**.
 
-6. **Change the shortcut icon** *(Optional)*  
-   - Right-click the shortcut → **Properties → Change icon**.  
-   - Choose the **synchronize icon**.
+5. **Double-click** the script to run it. If blocked, open PowerShell as Administrator and allow scripts:
 
-7. **Run the script**  
-   Double-click the shortcut to execute the PowerShell script.
+```powershell
+Set-ExecutionPolicy RemoteSigned
+```
+Tip: Right-click the script → Run with PowerShell for a quick run.
    
 ---
 
