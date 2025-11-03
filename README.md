@@ -41,7 +41,7 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 ```
 USB_DRIVE_ROOT/
 └── JDOE_WORKPC_5A8C2E/  🔄 Unique user directory 
-    ├── Data/            📁 Mirrored user files (Documents, Pictures, Videos, Music)
+    ├── Data/            ✅ Mirrored user files (Documents, Pictures, Videos, Music)
     └── Logs/            🧾 Synchronization logs
 ```
 ---
