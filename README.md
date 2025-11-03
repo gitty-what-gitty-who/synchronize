@@ -56,8 +56,8 @@ USB_DRIVE_ROOT/
    - In the **General tab** check the box labeled **Hidden**.
 
 4. **Create a shortcut**  
-   - Right-click on an empty space in the root of the USB drive and select **new → shortcut**.  
-   - For the **target**, enter:  
+   - Right-click on an empty space in the root of the USB drive and select **New → Shortcut**.  
+   - For the **Target**, enter:  
      ```
      powershell.exe -ExecutionPolicy Bypass -File "E:\SYNCHRONIZE.ps1"
      ```  
@@ -67,7 +67,7 @@ USB_DRIVE_ROOT/
    Give it a descriptive name, for example **“START SYNCHRONIZING”**.
 
 6. **Change the shortcut icon** *(Optional)*  
-   - Right-click the shortcut → **properties → change icon**.  
+   - Right-click the shortcut → **Properties → Change icon**.  
    - Choose the **synchronize icon**.
 
 7. **Run the script**  
