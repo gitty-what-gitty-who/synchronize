@@ -8,6 +8,28 @@
 #>
 
 # ========================================================================================================
+#    ensure this script runs from a removable USB drive only   
+# ========================================================================================================
+
+$scriptDrive = (Split-Path -Qualifier $MyInvocation.MyCommand.Path)
+
+$systemDrive = $env:SystemDrive
+
+if ($scriptDrive -eq $systemDrive) {
+    Write-Host "⚠️ This script is being run from the system drive ($systemDrive) instead of a USB drive." -ForegroundColor Red
+    Write-Host "   You need to run this script from a removable USB drive to continue.." -ForegroundColor Red
+    Write-Host ""
+
+    [console]::Beep(500, 1000)  # 500 Hz for 1 second
+
+    if ($host.Name -eq 'ConsoleHost' -or $host.Name -eq 'Windows PowerShell ISE Host') {
+    Write-Host "Press Enter to exit..."
+    Read-Host
+    exit
+    }  
+}
+
+# ========================================================================================================
 #    define function to change folder icon
 # ========================================================================================================
 
@@ -21,15 +43,15 @@ function Change-Icon {
     )
 
     $IconMap = @{
-        "good"    = 110
-        "bad"     = 234
-        "warning" = 66
-        "sync"    = 238
-        "log"     = 70
+        "good"    = 233
+        "bad"     = 93
+        "warning" = 231
+        "sync"    = 229
+        "log"     = 97
     }
 
     $FileDesktopIni = Join-Path $PathDir "desktop.ini"
-    $IconResource   = "C:\WINDOWS\System32\SHELL32.dll,$($IconMap[$Icon])"
+    $IconResource   = "C:\WINDOWS\system32\imageres.dll,$($IconMap[$Icon])"
     $Content        = "[.ShellClassInfo]`r`nIconResource=$IconResource"
 
     $Content | Set-Content -Encoding Unicode $FileDesktopIni
