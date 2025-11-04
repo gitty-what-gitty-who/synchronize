@@ -161,7 +161,7 @@ elseif (Test-Path $dir_parent) {
 }
 
 # ========================================================================================================
-#    if dir_parent\Logs does not exist then make dir_parent\Logs & keep only "n" log files
+#    if dir_parent\Logs does not exist then create dir_parent\Logs & keep only "n+1" log files
 # ========================================================================================================
 
 $dir_logs = Join-Path $dir_parent "Logs"
@@ -181,8 +181,8 @@ $logs = Get-ChildItem -Path $dir_logs -Filter "*.txt" |
     Where-Object { $_.BaseName -match '^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}$' } |
     Sort-Object Name -Descending
 
-# Keep the 5 most recent, delete the rest
-$logsToDelete = $logs | Select-Object -Skip 20
+# Keep the n+1 most recent, delete the rest
+$logsToDelete = $logs | Select-Object -Skip 19
 $logsToDelete | Remove-Item -Force
 
 Change-Icon -PathDir $dir_logs -Icon "log"
@@ -201,6 +201,11 @@ if (-not (Test-Path $dir_data)) {
 }
 
  Change-Icon -PathDir $dir_parent -Icon "sync"
+
+ #begin script before synchronization icon bad
+ #end script after synchronization icon good
+ Change-Icon -PathDir $dir_data -Icon "bad"
+
 
 # ========================================================================================================
 #    calculate the size of data to be synchronized
@@ -287,8 +292,6 @@ Write-Host ""
 #    free space on usb >= delta data then continue script
 # ========================================================================================================
 
-#$continue_script = "False"
-
 $continue_script = $size_free_space_usb -gt $size_delta_data
 
 Write-Host "  Free space on USB > Delta data = $continue_script"
@@ -361,15 +364,14 @@ foreach ($dir in $directories) {
 Write-Host "  Starting synchronization . . ."
 
 if ($use_timeout -eq $true) { Start-Sleep -Seconds 5 }
-Write-Host ""
 
+Write-Host ""
 Write-Host "-------------------------------------------------------------------------------"
 Write-Host "   SYNCHRONIZE     ::     Starting synchronization "
 Write-Host "-------------------------------------------------------------------------------"
 
 $directories = "Documents","Pictures","Videos","Music"
 $user_profile = $env:USERPROFILE
-#$log_file = Join-Path $dir_parent "Logs\Log1.log"
 $log = Join-Path $dir_logs "$(Get-Date -Format 'yyyy-MM-dd_HH-mm-ss').txt"
 $data_dir = Join-Path $dir_parent "Data"
 
@@ -439,7 +441,7 @@ Write-Host ""
 [console]::Beep(500, 1000)  # 500 Hz for 1 second
 
 if ($host.Name -eq 'ConsoleHost' -or $host.Name -eq 'Windows PowerShell ISE Host') {
-Write-Host "  Press Enter to exit..."
+Write-Host "  Press enter to exit..."
 Read-Host
 exit
 }  
