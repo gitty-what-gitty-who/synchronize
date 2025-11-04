@@ -48,31 +48,40 @@ USB_DRIVE_ROOT/
 
 ## 🧭 Usage instructions
 
-1. **Place the script**  
-   Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive ( for example `E:\SYNCHRONIZE.ps1`).
+### Option 1: Quick Run
 
-2. **Hide script** *(Optional)*
-   - Right-click **SYNCHRONIZE.ps1** → **Properties**. 
-   - In the **General tab** check the box labeled **Hidden**.
+Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
+**Right-click** the script → **Run with PowerShell**. 
 
-4. **Create a shortcut**  
-   - Right-click on an empty space in the root of the USB drive and select **New → Shortcut**.  
-   - For the **Target**, enter:  
-     ```
-     powershell.exe -ExecutionPolicy Bypass -File "E:\SYNCHRONIZE.ps1"
-     ```  
-     > Replace `E:` with the correct drive letter of your USB drive.
+### Option 2: Set PowerShell as Default
 
-5. **Name the shortcut**  
-   Give it a descriptive name, for example **“START SYNCHRONIZING”**.
+1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
 
-6. **Change the shortcut icon** *(Optional)*  
-   - Right-click the shortcut → **Properties → Change icon**.  
-   - Choose the **synchronize icon**.
+2. Select the script **Right-click → Open with → Choose another app**.
 
-7. **Run the script**  
-   Double-click the shortcut to execute the PowerShell script.
+3. **Select PowerShell** (or browse to the location of powershell.exe `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`).
+
+4. *(Optional)* Check **Always use this app**.
+
+5. **Double-click** the script to run. If blocked, open PowerShell as Administrator and allow scripts:
+
+```powershell
+Set-ExecutionPolicy RemoteSigned
+```
+### Option 3: Run via Batch File
+
+1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
    
+2. In the same directory as **`SYNCHRONIZE.ps1`**, create a new text file and rename it to **`RunSync.bat`**.
+    
+3. Edit the file and add the following lines:
+   
+```batch
+@echo off
+PowerShell -NoProfile -ExecutionPolicy Bypass -File "%~dp0SYNCHRONIZE.ps1"
+```
+4. **Double-click** **`RunSync.bat`** to run the PowerShell script.
+
 ---
 
 ## 🧩 Important notes
@@ -91,7 +100,7 @@ USB_DRIVE_ROOT/
 
 ## 🧑‍💻 Version information
 - **Script name:** `SYNCHRONIZE.ps1`  
-- **Compatibility:** Windows 10 and later  
+- **Compatibility:** Windows 11  
 - **Operation mode:** One-way file mirroring (PC → USB)
 
 ---
