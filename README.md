@@ -48,21 +48,40 @@ USB_DRIVE_ROOT/
 
 ## 🧭 Usage instructions
 
+### Option 1: Quick Run
+
+Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
+**Right-click** the script → **Run with PowerShell**. 
+
+### Option 2: Set PowerShell as Default
+
 1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
 
 2. Select the script **Right-click → Open with → Choose another app**.
 
-3. **Select PowerShell** (or browse to `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`).
+3. **Select PowerShell** (or browse to the location of powershell.exe `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`).
 
 4. *(Optional)* Check **Always use this app**.
 
-5. **Double-click** the script to run it. If blocked, open PowerShell as Administrator and allow scripts:
+5. **Double-click** the script to run. If blocked, open PowerShell as Administrator and allow scripts:
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned
 ```
-Tip: Right-click the script → Run with PowerShell for a quick run.
+### Option 3: Run via Batch File
+
+1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
    
+2. In the same directory as **`SYNCHRONIZE.ps1`**, create a new text file and rename it to **`RunSync.bat`**.
+    
+3. Edit the file and add the following lines:
+   
+```batch
+@echo off
+PowerShell -NoProfile -ExecutionPolicy Bypass -File "%~dp0SYNCHRONIZE.ps1"
+```
+4. **Double-click** **`RunSync.bat`** to run the PowerShell script.
+
 ---
 
 ## 🧩 Important notes
@@ -81,7 +100,7 @@ Tip: Right-click the script → Run with PowerShell for a quick run.
 
 ## 🧑‍💻 Version information
 - **Script name:** `SYNCHRONIZE.ps1`  
-- **Compatibility:** Windows 10 and later  
+- **Compatibility:** Windows 11  
 - **Operation mode:** One-way file mirroring (PC → USB)
 
 ---
