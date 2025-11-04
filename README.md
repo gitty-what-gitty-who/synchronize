@@ -72,7 +72,7 @@ Set-ExecutionPolicy RemoteSigned
 
 1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
    
-2. In the same directory as **`SYNCHRONIZE.ps1`**, create a new text file and rename it to **`RunSync.bat`**.
+2. In the **root directory** of your USB drive create a new text file and rename it to **`RunSync.bat`**.
     
 3. Edit the file and add the following lines:
    
