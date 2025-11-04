@@ -9,8 +9,8 @@
 
 ## 📄 Description
 
-`SYNCHRONIZE.ps1` is a powershell script that enables users to quickly and efficiently **mirror their personal directories** onto a USB drive.  
-It performs a **one-way synchronization** from the local PC to the USB drive, meaning:
+`SYNCHRONIZE.ps1` is a powershell script that enables users to quickly and efficiently mirror their personal directories onto a USB drive.  
+It performs a one-way synchronization from the local PC to the USB drive, meaning:
 
 - 🟢 New and updated files on the PC are copied to the USB drive.  
 - 🔴 Files deleted from the PC are also removed from the USB drive.  
@@ -24,7 +24,7 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 
 ### 1. Unique user directory
 - Generates a unique user directory.
-- It combines the username, computer name and a short SHA-1 hash of the user’s SID to ensure the directory name is unique.
+- It combines the user name, computer name and a short SHA-1 hash of the user’s SID to ensure the directory name is unique.
 
 ### 2. Storage space validation
 - Before synchronization, the script checks the available storage space on the USB drive.  
@@ -32,7 +32,7 @@ It performs a **one-way synchronization** from the local PC to the USB drive, me
 - If space is insufficient, the script stops and notifies the user.
 
 ### 3. Synchronization process
-- Mirrors the contents of the user’s **Documents**, **Pictures**, **Videos** and **Music** directories to corresponding directories on the USB drive.  
+- Mirrors the contents of the user’s Documents, Pictures, Videos and Music directories to corresponding directories on the USB drive.  
 - Additions, modifications and deletions are replicated to maintain an exact mirror of the local Windows directories.
 
 ---
@@ -50,16 +50,16 @@ USB_DRIVE_ROOT/
 
 ### Option 1: Quick Run
 
-Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
+Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
 **Right-click** the script → **Run with PowerShell**. 
 
 ### Option 2: Set PowerShell as Default
 
-1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
+1. Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
 
 2. Select the script **Right-click → Open with → Choose another app**.
 
-3. **Select PowerShell** (or browse to the location of powershell.exe `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`).
+3. **Select PowerShell** (or browse to the location of powershell.exe -> C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe).
 
 4. *(Optional)* Check **Always use this app**.
 
@@ -70,9 +70,9 @@ Set-ExecutionPolicy RemoteSigned
 ```
 ### Option 3: Run via Batch File
 
-1. Copy the **`SYNCHRONIZE.ps1`** file to the **root directory** of your USB drive.
+1. Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
    
-2. In the **root directory** of your USB drive create a new text file and rename it to **`RunSync.bat`**.
+2. In the root directory of your USB drive create a new text file and rename it to `RunSync.bat`.
     
 3. Edit the file and add the following lines:
    
@@ -80,7 +80,7 @@ Set-ExecutionPolicy RemoteSigned
 @echo off
 PowerShell -NoProfile -ExecutionPolicy Bypass -File "%~dp0SYNCHRONIZE.ps1"
 ```
-4. **Double-click** **`RunSync.bat`** to run the PowerShell script.
+4. **Double-click** `RunSync.bat` to run `SYNCHRONIZE.ps1`.
 
 ---
 
