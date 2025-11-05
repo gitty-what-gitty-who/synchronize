@@ -59,7 +59,7 @@ Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
 
 2. Select the script **Right-click → Open with → Choose another app**.
 
-3. **Select PowerShell** (or browse to the location of powershell.exe -> C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe).
+3. **Select PowerShell** (or browse to the location of powershell.exe →  C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe).
 
 4. *(Optional)* Check **Always use this app**.
 
@@ -72,7 +72,7 @@ Set-ExecutionPolicy RemoteSigned
 
 1. Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
    
-2. In the root directory of your USB drive create a new text file and rename it to `RunSync.bat`.
+2. In the root directory of your USB drive create a new text file and rename it to RunSync.bat.
     
 3. Edit the file and add the following lines:
    
@@ -80,7 +80,7 @@ Set-ExecutionPolicy RemoteSigned
 @echo off
 PowerShell -NoProfile -ExecutionPolicy Bypass -File "%~dp0SYNCHRONIZE.ps1"
 ```
-4. **Double-click** `RunSync.bat` to run `SYNCHRONIZE.ps1`.
+4. **Double-click** RunSync.bat to run `SYNCHRONIZE.ps1`.
 
 ---
 
