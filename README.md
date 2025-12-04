@@ -9,7 +9,7 @@
 
 ## 📄 Description
 
-`SYNCHRONIZE.ps1` is a powershell script that enables users to quickly and efficiently mirror their personal directories onto a USB drive.  
+`SYNCHRONIZE.ps1` is a PowerShell script that enables users to quickly and efficiently mirror their personal directories onto a USB drive.  
 It performs a one-way synchronization from the local PC to the USB drive, meaning:
 
 - 🟢 New and updated files on the PC are copied to the USB drive.  
@@ -48,9 +48,9 @@ USB_DRIVE_ROOT/
 
 ## 🧭 Usage instructions
 
-First, open powerShell as administrator and allow scripts:
+First, open PowerShell as administrator and allow scripts:
 
-```powershell
+```PowerShell
 Set-ExecutionPolicy RemoteSigned
 ```
 You can run the script in several ways.
@@ -66,7 +66,7 @@ Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
 
 2. Select the script **Right-click → Open with → Choose another app**.
 
-3. **Select PowerShell** (or browse to the location of powershell.exe →  C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe).
+3. **Select PowerShell** (or browse to the location of PowerShell.exe →  C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe).
 
 4. *(Optional)* Check **Always use this app**.
 
