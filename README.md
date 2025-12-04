@@ -48,6 +48,13 @@ USB_DRIVE_ROOT/
 
 ## 🧭 Usage instructions
 
+First, open PowerShell as Administrator and allow scripts:
+
+```powershell
+Set-ExecutionPolicy RemoteSigned
+```
+You can run the script in several ways.
+
 ### Option 1: Quick Run
 
 Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
@@ -63,11 +70,8 @@ Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
 
 4. *(Optional)* Check **Always use this app**.
 
-5. **Double-click** the script to run. If blocked, open PowerShell as Administrator and allow scripts:
-
-```powershell
-Set-ExecutionPolicy RemoteSigned
-```
+5. **Double-click** the script to run.
+   
 ### Option 3: Run via Batch File
 
 1. Copy the `SYNCHRONIZE.ps1` file to the root directory of your USB drive.
