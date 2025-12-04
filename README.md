@@ -48,7 +48,7 @@ USB_DRIVE_ROOT/
 
 ## 🧭 Usage instructions
 
-First, open PowerShell as Administrator and allow scripts:
+First, open powerShell as administrator and allow scripts:
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned
