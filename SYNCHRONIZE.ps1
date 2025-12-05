@@ -81,17 +81,15 @@ while ($true) {
     Clear-host
     $input = (Read-Host "Run script with delays [y/N]").ToLower()
     if ($input -eq '') { $input = 'n' }
-
     if ($input -eq 'y') { $use_timeout = $true; break }
     if ($input -eq 'n') { $use_timeout = $false; break }
-
     write-Host "Invalid input, please enter 'y' or 'n'." 
     start-Sleep -Seconds 1
 }
 
 if ($use_timeout) {
     Write-Host "Delays will be applied..."
-    Start-Sleep 1
+    Start-Sleep -Seconds 1
 } else {
     Write-Host "Running without delays..."
 }
