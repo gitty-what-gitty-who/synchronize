@@ -1,12 +1,4 @@
-﻿<#
-.SYNOPSIS
-    SYNCRONIZE.ps1
-
-.DESCRIPTION
-    This PowerShell script allows Windows users to quickly and easily mirror 
-    their Windows personal directories onto a USB drive.
-#>
-
+﻿
 # ========================================================================================================
 #    set title 
 # ========================================================================================================
@@ -73,6 +65,8 @@ function Change-Icon {
 #Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray,
 #DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White
 
+$host.UI.RawUI.ForegroundColor = 'Yellow'
+
 # ========================================================================================================
 #    prompt [y/N] for timeout
 # ========================================================================================================
@@ -104,8 +98,6 @@ write-host "  / ___\ \ / / \ | |/ ___| | | |  _ \ / _ \| \ | |_ _|__  / ____|"
 write-host "  \___ \\ V /|  \| | |   | |_| | |_) | | | |  \| || |  / /|  _|  "
 write-host "   ___) || | | |\  | |___|  _  |  _ <| |_| | |\  || | / /_| |___ "
 write-host "  |____/ |_| |_| \_|\____|_| |_|_| \_\\___/|_| \_|___/____|_____|"
-
-pause
 
 # ========================================================================================================
 #    create parent dir from username + computername + account SID hash
