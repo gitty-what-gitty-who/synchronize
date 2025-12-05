@@ -70,9 +70,6 @@ function Change-Icon {
 #    set output color
 # ========================================================================================================
 
-$output_color = 'Yellow'
-$host.UI.RawUI.ForegroundColor = $output_color
-
 #Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray,
 #DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White
 
@@ -80,31 +77,23 @@ $host.UI.RawUI.ForegroundColor = $output_color
 #    prompt [y/n] for timeout
 # ========================================================================================================
 
-$use_timeout = $null
+while ($true) {
+    Clear-host
+    $input = (Read-Host "Run script with delays [y/N]").ToLower()
+    if ($input -eq '') { $input = 'n' }
 
-do {
-    clear-host
-    $input = read-Host "Run script with delays [y/n]"
+    if ($input -eq 'y') { $use_timeout = $true; break }
+    if ($input -eq 'n') { $use_timeout = $false; break }
 
-    switch ($input.ToLower()) {
-        'y' { 
-            $use_timeout = $true
-        }
-        'n' {
-            $use_timeout = $false
-        }
-        default {
-            write-Host "Invalid input, please enter 'y' or 'n'." 
-            start-Sleep -Seconds 1
-        }
-    }
-} until ($use_timeout -ne $null)
+    write-Host "Invalid input, please enter 'y' or 'n'." 
+    start-Sleep -Seconds 1
+}
 
 if ($use_timeout) {
-    write-Host "Delays will be applied..."
-    start-Sleep -Seconds 1
+    Write-Host "Delays will be applied..."
+    Start-Sleep 1
 } else {
-    write-Host "Running without delays..."
+    Write-Host "Running without delays..."
 }
 
 # ========================================================================================================
@@ -117,6 +106,8 @@ write-host "  / ___\ \ / / \ | |/ ___| | | |  _ \ / _ \| \ | |_ _|__  / ____|"
 write-host "  \___ \\ V /|  \| | |   | |_| | |_) | | | |  \| || |  / /|  _|  "
 write-host "   ___) || | | |\  | |___|  _  |  _ <| |_| | |\  || | / /_| |___ "
 write-host "  |____/ |_| |_| \_|\____|_| |_|_| \_\\___/|_| \_|___/____|_____|"
+
+pause
 
 # ========================================================================================================
 #    create parent dir from username + computername + account SID hash
